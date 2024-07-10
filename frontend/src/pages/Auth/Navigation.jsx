@@ -36,7 +36,7 @@ const Navigation = () => {
       try {
         await logoutApiCall().unwrap();
         dispatch(logout());
-        navigate("/login");
+        navigate("/");
       } catch (error) {
         console.error(error);
       }

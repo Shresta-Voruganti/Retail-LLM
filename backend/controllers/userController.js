@@ -7,8 +7,8 @@ import bcrypt from 'bcryptjs'
 import getToken from '../utils/createToken.js'
 
 const createUser=asyncHandler(async(req,res)=>{
-    const {username,email,password}=req.body;
-    if(!username || !email || !password){
+    const {username,email,password,branch}=req.body;
+    if(!username || !email || !password || !branch){
         res.send("Please fill all the input fields")
     }
     else{
@@ -18,7 +18,7 @@ const createUser=asyncHandler(async(req,res)=>{
         const salt=await bcrypt.genSalt(10);
         const hash=await bcrypt.hash(password,salt)
 
-        const newUser= new User({username,email,password: hash})
+        const newUser= new User({username,email,password: hash,branch})
         
         try {
             await newUser.save();
@@ -28,6 +28,7 @@ const createUser=asyncHandler(async(req,res)=>{
                 username: newUser.username,
                 email: newUser.email,
                 password: newUser.password, // Note: It's not recommended to send passwords in responses.
+                branch:newUser.branch,
                 isAdmin:newUser.isAdmin,
                 token:token,
             });
@@ -56,6 +57,7 @@ const loginUser=asyncHandler(async(req,res)=>{
                 email: exist.email,
                 password: exist.password,
                 isAdmin:exist.isAdmin,
+                branch:exist.branch,
                 //token:token,
             });
             
@@ -77,6 +79,7 @@ const logOutCurrentUser=asyncHandler(async(req,res)=>{
     res.status(200).json({message:"Logged Out Successfully"})
 })
 const getAllUsers= asyncHandler(async(req,res)=>{
+    //!Salesperson branch required
     const users=await User.find({});
     res.json(users);
 });
@@ -99,6 +102,7 @@ const updateCurentUserProfile=asyncHandler(async(req,res)=>{
     if(user){
         user.username=req.body.username || user.username
         user.email=req.body.email||user.email
+        user.branch=req.body.branch || user.branch
         if(req.body.password){
             user.password=req.body.password
         }

@@ -17,6 +17,7 @@ const ProductList = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [brand, setBrand] = useState("");
+  const [branch, setBranch] = useState("");
   const [stock, setStock] = useState(0);
   const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const ProductList = () => {
       productData.append("category", category);
       productData.append("quantity", quantity);
       productData.append("brand", brand);
+      productData.append("branch", branch);
       productData.append("countInStock", stock);
 
       const { data } = await createProduct(productData);
@@ -45,7 +47,7 @@ const ProductList = () => {
         toast.error("Product create failed. Try Again.");
       } else {
         toast.success(`${data.name} is created`);
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.error(error);
@@ -176,14 +178,31 @@ const ProductList = () => {
                   ))}
                 </select>
               </div>
+              <div>
+                <label htmlFor="">Branch</label> <br />
+                <select
+                  placeholder="Choose Branch"
+                  className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white"
+                  onChange={(e) => setBranch(e.target.value)} 
+                >
+                  <option value="">Choose Branch</option>
+                  <option value="Branch A">Branch A</option>
+                  <option value="Branch B">Branch B</option>
+                  <option value="Branch C">Branch C</option>
+                  <option value="Branch D">Branch D</option>
+                  <option value="Branch E">Branch E</option> 
+                </select>
+              </div>
             </div>
 
-            <button
-              onClick={handleSubmit}
-              className="py-4 px-10 mt-5 rounded-lg text-lg font-bold bg-pink-600"
-            >
-              Submit
-            </button>
+              <form onSubmit={handleSubmit} encType="multipart/form-data">
+              <button
+                type="submit"
+                className="py-4 px-10 mt-5 rounded-lg text-lg font-bold bg-pink-600"
+              >
+                Submit
+              </button>
+              </form>
           </div>
         </div>
       </div>

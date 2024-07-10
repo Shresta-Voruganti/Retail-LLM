@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [branch, setBranch] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Register = () => {
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect = sp.get("redirect") || "/";
+  const redirect =  "/home";
 
   useEffect(() => {
     if (userInfo) {
@@ -36,13 +37,13 @@ const Register = () => {
       toast.error("Passwords do not match");
     } else {
       try {
-        const res = await register({ username, email, password }).unwrap();
+        const res = await register({ username, email, password, branch }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
         toast.success("User successfully registered");
       } catch (error) {
-        toast.error(error?.data?.message || error.message)
-    }
+        toast.error(error?.data?.message || error.message);
+      }
     }
   };
 
@@ -120,6 +121,29 @@ const Register = () => {
             />
           </div>
 
+          <div className="my-[2rem] ">
+            <label
+              htmlFor="branch"
+              className="block text-sm font-medium text-white"
+            >
+              Branch
+            </label>
+            <select
+              id="branch"
+              className="mt-1 p-2 border rounded w-full text-black"
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+            >
+              <option value="" className="text-white">Select Branch</option>
+              <option value="Branch A">Branch A</option>
+              <option value="Branch B">Branch B</option>
+              <option value="Branch C">Branch C</option>
+              <option value="Branch D">Branch D</option>
+              <option value="Branch E">Branch E</option>
+              {/* Add more branches as needed */}
+            </select>
+          </div>
+
           <button
             disabled={isLoading}
             type="submit"
@@ -135,7 +159,7 @@ const Register = () => {
           <p className="text-white">
             Already have an account?{" "}
             <Link
-              to={redirect ? `/login?redirect=${redirect}` : "/login"}
+              to={redirect ? `/?redirect=${redirect}` : "/"}
               className="text-pink-500 hover:underline"
             >
               Login
@@ -143,7 +167,6 @@ const Register = () => {
           </p>
         </div>
       </div>
-      
     </section>
   );
 };

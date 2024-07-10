@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { ObjectId } from "mongodb";
 const orderSchema = mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
@@ -79,6 +79,11 @@ const orderSchema = mongoose.Schema(
     deliveredAt: {
       type: Date,
     },
+    branch:{
+      type:ObjectId,
+      ref:"Branch",
+      required:true,
+    }
   },
   {
     timestamps: true,

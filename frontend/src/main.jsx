@@ -36,10 +36,10 @@ import AdminDashboard from './pages/Admin/AdminDashboard.jsx'
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
 
-        <Route path='/' element={<Home/>}/>
+        <Route path='/home' element={<Home/>}/>
     <Route path='/favorite' element={<Favorites/>}/>
     <Route path='/product/:id' element={<ProductDetails/>}/>
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { ObjectId } from "mongodb";
 const userSchema = mongoose.Schema(
   {
     username: {
@@ -23,6 +23,11 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+
+    branch:{
+      type:String,
+      required:true,
+    }
   },
   { timestamps: true }
 );

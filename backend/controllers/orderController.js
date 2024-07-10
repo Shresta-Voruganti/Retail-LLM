@@ -69,6 +69,7 @@ const createOrder = async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
+      branch:dbOrderItems.branch.name,
     });
 
     const createdOrder = await order.save();

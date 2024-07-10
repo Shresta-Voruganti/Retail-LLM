@@ -18,7 +18,7 @@ const CategoryList = () => {
     const[selectedCategory,setSelectedCategory]=useState(null)
     const[updatingName,setUpdatingName]=useState('')
     const[modalVisible,setModalVisible]=useState(false)
-
+    
     const[createCategory]=useCreateCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
     const[deleteCategory]=useDeleteCategoryMutation();
