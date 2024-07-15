@@ -32,13 +32,21 @@ import Order from './pages/Orders/Order.jsx'
 import UserOrder from './pages/User/UserOrder.jsx'
 import OrderList from './pages/Admin/OrderList.jsx'
 import AdminDashboard from './pages/Admin/AdminDashboard.jsx'
+import BranchList from './pages/Owner/BranchList.jsx'
+import OwnerRoute from './pages/Owner/OwnerRoute.jsx'
+import Dashboard from './pages/Owner/Dashboard.jsx'
+import OwnerRegister from './pages/Auth/OwnerRegister.jsx'
+import AllOwnerProducts from './pages/Owner/AllOwnerProducts.jsx'
+import AdminList from './pages/Owner/AdminList.jsx'
+
+
 
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
         <Route path='/' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
-
+        <Route path='/OwnerRegister' element={<OwnerRegister/>}/>
         <Route path='/home' element={<Home/>}/>
     <Route path='/favorite' element={<Favorites/>}/>
     <Route path='/product/:id' element={<ProductDetails/>}/>
@@ -62,11 +70,19 @@ const router=createBrowserRouter(
     <Route path='productlist' element={<ProductList/>}/>    
     <Route path='allproductslist' element={<AllProducts/>}/>
     <Route path='orderlist' element={<OrderList/>}/>
-
     <Route path='product/update/:_id' element={<ProductUpdate/>}/>
     <Route path='dashboard' element={<AdminDashboard/>}/>
 
 
+    </Route>
+    
+      {/* Owner Routes */}
+    <Route path='/owner' element={<OwnerRoute/>}>
+    <Route path='dashboard' element={<Dashboard/>}/>
+    <Route path='products' element={<AllOwnerProducts/>}/>
+    <Route path="branchlist" element={<BranchList />} />
+    <Route path='categorylist' element={<CategoryList/>}/>
+    <Route path="allAdmin" element={<AdminList/>}/>
     </Route>
       </Route>
   )

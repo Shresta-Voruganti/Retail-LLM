@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
+import { authenticate, authorizeAdmin ,authorizeOwner} from "../middlewares/authMiddleware.js";
 import {
   createBranch,
   updateBranch,
@@ -10,9 +10,9 @@ import {
   readBranch,
 } from "../controllers/branchController.js";
 
-router.route("/").post(authenticate,authorizeAdmin,createBranch);
-router.route("/:Id").delete(authenticate, authorizeAdmin, removeBranch);
-router.route("/:branchId").put(authenticate, authorizeAdmin, updateBranch);
+router.route("/").post(authenticate,authorizeOwner,createBranch);
+router.route("/:Id").delete(authenticate, authorizeOwner, removeBranch);
+router.route("/:branchId").put(authenticate, authorizeOwner, updateBranch);
 
 router.route("/branchs").get(listBranch);
 

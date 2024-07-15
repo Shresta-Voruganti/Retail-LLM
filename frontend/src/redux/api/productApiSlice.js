@@ -88,6 +88,10 @@ export const productApiSlice = apiSlice.injectEndpoints({
         body: { checked, radio },
       }),
     }),
+    
+    allOwnerProducts: builder.query({
+      query: () => `${PRODUCT_URL}/ownerproducts`,
+    }),
   }),
 });
 
@@ -104,4 +108,5 @@ export const {
   useGetNewProductsQuery,
   useUploadProductImageMutation,
   useGetFilteredProductsQuery,
+  useAllOwnerProductsQuery,
 } = productApiSlice;

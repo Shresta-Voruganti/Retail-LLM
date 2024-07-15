@@ -80,7 +80,7 @@ const orderSchema = mongoose.Schema(
       type: Date,
     },
     branch:{
-      type:ObjectId,
+      type:String,
       ref:"Branch",
       required:true,
     }

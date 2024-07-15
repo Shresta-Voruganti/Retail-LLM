@@ -23,6 +23,11 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    isOwner: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
 
     branch:{
       type:String,

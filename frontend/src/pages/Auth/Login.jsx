@@ -22,7 +22,10 @@ const Login = () => {
   const redirect =  "/home";
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.isOwner) {
+      navigate("/owner/dashboard");
+    }
+    else if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);

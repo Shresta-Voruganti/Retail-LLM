@@ -135,7 +135,8 @@ const fetchProductById = asyncHandler(async (req, res) => {
 
 const fetchAllProducts = asyncHandler(async (req, res) => {
   try {
-    const products = await Product.find({})
+    const user = await User.findById(req.user._id);
+    const products = await Product.find({branch:user.branch})
       .populate("category")
       .limit(12)
       .sort({ createAt: -1 });
@@ -221,19 +222,32 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
 });
 const filterProducts = asyncHandler(async (req, res) => {
   try {
+    const user = await User.findById(req.user._id);
     const { checked, radio } = req.body;
 
     let args = {};
     if (checked.length > 0) args.category = checked;
     if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
 
-    const products = await Product.find(args);
+    const products = await Product.find(args).find({branch: user.branch});
     res.json(products);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server Error" });
   }
 });
+
+const ownerProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find({})
+    console.log(products);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 
 export {
   addProduct,
@@ -246,4 +260,5 @@ export {
   fetchTopProducts,
   fetchNewProducts,
   filterProducts,
+  ownerProducts,
 };

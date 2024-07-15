@@ -5,7 +5,9 @@ import User from '../models/userModel.js'
 import asyncHandler from '../middlewares/asyncHandler.js'
 import bcrypt from 'bcryptjs'
 import getToken from '../utils/createToken.js'
-
+import Branch from '../models/branchModel.js'
+import Product from '../models/productModel.js'
+import Order from '../models/orderModel.js'
 const createUser=asyncHandler(async(req,res)=>{
     const {username,email,password,branch}=req.body;
     if(!username || !email || !password || !branch){
@@ -30,6 +32,7 @@ const createUser=asyncHandler(async(req,res)=>{
                 password: newUser.password, // Note: It's not recommended to send passwords in responses.
                 branch:newUser.branch,
                 isAdmin:newUser.isAdmin,
+                isOwner:newUser.isOwner,
                 token:token,
             });
         } catch (error) {
@@ -57,6 +60,7 @@ const loginUser=asyncHandler(async(req,res)=>{
                 email: exist.email,
                 password: exist.password,
                 isAdmin:exist.isAdmin,
+                isOwner:exist.isOwner,
                 branch:exist.branch,
                 //token:token,
             });
@@ -79,9 +83,14 @@ const logOutCurrentUser=asyncHandler(async(req,res)=>{
     res.status(200).json({message:"Logged Out Successfully"})
 })
 const getAllUsers= asyncHandler(async(req,res)=>{
-    //!Salesperson branch required
-    const users=await User.find({});
+    try{
+    const user= await User.findById(req.user._id)
+    const users=await User.find({branch:user.branch});
     res.json(users);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({'message':error.message})
+    }
 });
 
 const getCurrentUserProfile=asyncHandler(async(req,res)=>{
@@ -113,7 +122,8 @@ const updateCurentUserProfile=asyncHandler(async(req,res)=>{
             _id:updatedUser._id,
             username:updatedUser.username,
             email:updatedUser.email,
-            isAdmin:updatedUser.isAdmin
+            isAdmin:updatedUser.isAdmin,
+            branch:updatedUser.branch
     });
     }else{
         res.status(404);
@@ -153,7 +163,7 @@ const updateUserById = asyncHandler(async (req, res) => {
     if (user) {
       user.username = req.body.username || user.username;
       user.email = req.body.email || user.email;
-      user.isAdmin = Boolean(req.body.isAdmin);
+      user.isAdmin = Boolean(req.body.isAdmin) || user.isAdmin;
   
       const updatedUser = await user.save();
   
@@ -168,6 +178,32 @@ const updateUserById = asyncHandler(async (req, res) => {
       throw new Error("User not found");
     }
   });
-  
+  const getAllAdmin= asyncHandler(async(req,res)=>{
+    try{
+    const users=await User.find({isAdmin:true});
+    res.json(users);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({'message':error.message})
+    }
+});
+const stats=asyncHandler(async (req, res) => {
+    const branches = await Branch.find({});
+    const data = await Promise.all(
+      branches.map(async (branch) => {
+        const usersCount = await User.countDocuments({ branch: branch.name });
+        const productsCount = await Product.countDocuments({ branch: branch.name });
+        const ordersCount = await Order.countDocuments({ branch: branch.name });
+        return {
+          branch: branch.name,
+          usersCount,
+          productsCount,
+          ordersCount,
+        };
+      })
+    );
 
-export {createUser,loginUser,logOutCurrentUser,getAllUsers,getCurrentUserProfile,updateCurentUserProfile,deleteUserById,getUserById,updateUserById};
+    res.json(data);
+  })
+
+export {createUser,loginUser,logOutCurrentUser,getAllUsers,getCurrentUserProfile,updateCurentUserProfile,deleteUserById,getUserById,updateUserById,getAllAdmin,stats};

@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -6,8 +5,9 @@ import {
   useUploadProductImageMutation,
 } from "../../redux/api/productApiSlice";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice";
+import { useFetchBranchsQuery } from "../../redux/api/branchApiSlice";
 import { toast } from "react-toastify";
- import AdminMenu from "./AdminMenu";
+import AdminMenu from "./AdminMenu";
 
 const ProductList = () => {
   const [image, setImage] = useState("");
@@ -25,7 +25,7 @@ const ProductList = () => {
   const [uploadProductImage] = useUploadProductImageMutation();
   const [createProduct] = useCreateProductMutation();
   const { data: categories } = useFetchCategoriesQuery();
-
+  const { data: branches } = useFetchBranchsQuery();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,7 +47,7 @@ const ProductList = () => {
         toast.error("Product create failed. Try Again.");
       } else {
         toast.success(`${data.name} is created`);
-        navigate("/home");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
@@ -168,9 +168,9 @@ const ProductList = () => {
                 <select
                   placeholder="Choose Category"
                   className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white"
-                  onChange={(e) => setCategory(e.target.value)} 
+                  onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option value="">Choose Category</option> 
+                  <option value="">Choose Category</option>
                   {categories?.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}
@@ -181,28 +181,28 @@ const ProductList = () => {
               <div>
                 <label htmlFor="">Branch</label> <br />
                 <select
-                  placeholder="Choose Branch"
+                  placeholder="Choose Category"
                   className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white"
-                  onChange={(e) => setBranch(e.target.value)} 
+                  onChange={(e) => setBranch(e.target.value)}
                 >
-                  <option value="">Choose Branch</option>
-                  <option value="Branch A">Branch A</option>
-                  <option value="Branch B">Branch B</option>
-                  <option value="Branch C">Branch C</option>
-                  <option value="Branch D">Branch D</option>
-                  <option value="Branch E">Branch E</option> 
+                  <option value="">Choose branch</option>
+                  {branches?.map((c) => (
+                    <option key={c.name} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
-              <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <button
                 type="submit"
                 className="py-4 px-10 mt-5 rounded-lg text-lg font-bold bg-pink-600"
               >
                 Submit
               </button>
-              </form>
+            </form>
           </div>
         </div>
       </div>

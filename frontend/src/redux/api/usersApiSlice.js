@@ -64,8 +64,15 @@ export const userApiSlice=apiSlice.injectEndpoints({
             }),
             invalidatesTags:["User"],
         }),
+        getAdmin:builder.query({
+            query:()=>({
+                url: `${USERS_URL}/allAdmin`
+            }),
+            providesTags:['User'],
+            keepUnusedDataFor:5,
+        }),
     }),
 });
 
 
-export const{useLoginMutation, useLogoutMutation, useRegisterMutation, useProfileMutation,useGetUsersQuery,useDeleteUserMutation,useGetUserDetailsQuery,useUpdateUserMutation}=userApiSlice;
+export const{useLoginMutation, useLogoutMutation, useRegisterMutation, useProfileMutation,useGetUsersQuery,useDeleteUserMutation,useGetUserDetailsQuery,useUpdateUserMutation,useGetAdminQuery}=userApiSlice;

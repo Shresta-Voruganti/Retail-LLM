@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux'
 
 
 
-const AdminRoute = () => {
+const OwnerRoute = () => {
     const {userInfo}=useSelector(state=>state.auth)
 
 
 
-  return userInfo  && userInfo.isAdmin?(<Outlet/>):(<Navigate to='/'replace/>)
+  return userInfo  && userInfo.isOwner?(<Outlet/>):(<Navigate to='/'replace/>)
 }
 
-export default AdminRoute
+export default OwnerRoute

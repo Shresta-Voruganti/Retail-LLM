@@ -1,5 +1,6 @@
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 
 // Utility Function
 function calcPrices(orderItems) {
@@ -29,7 +30,7 @@ function calcPrices(orderItems) {
 const createOrder = async (req, res) => {
   try {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
-
+    const user = await User.findById(req.user._id);
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error("No order items");
@@ -69,7 +70,7 @@ const createOrder = async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      branch:dbOrderItems.branch.name,
+      branch:user.branch,
     });
 
     const createdOrder = await order.save();
@@ -81,7 +82,8 @@ const createOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({}).populate("user", "id username");
+    const user = await User.findById(req.user._id);
+    const orders = await Order.find({branch:user.branch}).populate("user", "id username");
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });

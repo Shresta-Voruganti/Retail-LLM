@@ -5,24 +5,23 @@ import Loader from "../../components/Loader";
 import { useRegisterMutation } from "../../redux/api/usersApiSlice";
 import { setCredentials } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
-import { useFetchBranchsQuery } from "../../redux/api/branchApiSlice";
+
 const Register = () => {
   const [username, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [branch, setBranch] = useState("");
+  const [martname, setMartName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const { data: branches } = useFetchBranchsQuery();
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect =  "/home";
-
+  const redirect =  "/login";
+  
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
@@ -40,14 +39,14 @@ const Register = () => {
           username,
           email,
           password,
-          branch,
+          branch:martname,
         };
         console.log("Payload:", payload);
 
         const res = await register(payload).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
-        toast.success("User successfully registered");
+        toast.success("Successfully registered");
       } catch (error) {
         toast.error(error?.data?.message || error.message);
       }
@@ -127,20 +126,21 @@ const Register = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          <div>
-            <label htmlFor="">Branch</label> <br />
-            <select
-              placeholder="Choose Category"
-              className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white"
-              onChange={(e) => setBranch(e.target.value)}
+          <div className="my-[2rem]">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-white"
             >
-              <option value="">Choose branch</option>
-              {branches?.map((c) => (
-                <option key={c.name} value={c.name}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+              Mart_Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="mt-1 p-2 border rounded w-full"
+              placeholder="Enter name"
+              value={martname}
+              onChange={(e) => setMartName(e.target.value)}
+            />
           </div>
           <button
             disabled={isLoading}

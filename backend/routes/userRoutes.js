@@ -1,6 +1,6 @@
 import express from "express";
-import { createUser, loginUser, logOutCurrentUser , getAllUsers,getCurrentUserProfile,updateCurentUserProfile,deleteUserById,getUserById,updateUserById } from "../controllers/userController.js";
-import  {authenticate, authorizeAdmin} from '../middlewares/authMiddleware.js';
+import { createUser, loginUser, logOutCurrentUser , getAllUsers,getCurrentUserProfile,updateCurentUserProfile,deleteUserById,getUserById,updateUserById, getAllAdmin, stats } from "../controllers/userController.js";
+import  {authenticate, authorizeAdmin, authorizeOwner} from '../middlewares/authMiddleware.js';
 
 
 
@@ -15,8 +15,8 @@ router.post('/logout', logOutCurrentUser)
 
 
 router.route('/profile').get(authenticate,getCurrentUserProfile).put(authenticate,updateCurentUserProfile);
-
-
+router.route('/allAdmin').get(authenticate,authorizeOwner,getAllAdmin)
+router.route("/statistics").get(authenticate,authorizeOwner,stats);
 //admin route
 router.route('/:id').delete(authenticate,authorizeAdmin,deleteUserById).get(authenticate,authorizeAdmin,getUserById).put(authenticate,authorizeAdmin,updateUserById)
 export default router;
