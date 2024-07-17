@@ -20,7 +20,7 @@ const Register = () => {
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect =  "/login";
+  const redirect =  "/";
   
   useEffect(() => {
     if (userInfo) {

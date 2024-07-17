@@ -6,6 +6,7 @@ import {
   AiOutlineLogin,
   AiOutlineUserAdd,
   AiOutlineShoppingCart,
+  AiOutlineSearch,
 } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -63,120 +64,118 @@ const Navigation = () => {
       } xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-black w-[4%] hover:w-[15%] h-[100vh] fixed`}
       id="navigation-container"
     >
-      {userInfo ?(!userInfo.isOwner && (
-        <>
-          <div className="flex flex-col justify-center space-y-4">
-            <Link
-              to="/"
-              className="flex items-center transition-transform transform hover:translate-x-2"
-            >
-              <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
-              <span className="hidden nav-item-name mt-[3rem]">Home</span>{" "}
-            </Link>
-            <Link
-              to="/shop"
-              className="flex items-center transition-transform transform hover:translate-x-2"
-            >
-              <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
-              <span className="hidden nav-item-name mt-[3rem]">shop</span>{" "}
-            </Link>
-            <Link
-              to="/cart"
-              className="flex items-center transition-transform transform hover:translate-x-2"
-            >
-              <AiOutlineShoppingCart className="mr-2 mt-[3rem]" size={26} />
-              <span className="hidden nav-item-name mt-[3rem]">Cart</span>{" "}
-              <div className="absolute top-9">
-                {cartItems.length > 0 && (
-                  <span>
-                    <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
-                      {cartItems.reduce((a, c) => a + c.qty, 0)}
-                    </span>
-                  </span>
-                )}
+      {userInfo
+        ? !userInfo.isOwner && (
+            <>
+              <div className="flex flex-col justify-center space-y-4">
+                <Link
+                  to="/"
+                  className="flex items-center transition-transform transform hover:translate-x-2"
+                >
+                  <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
+                  <span className="hidden nav-item-name mt-[3rem]">
+                    Home
+                  </span>{" "}
+                </Link>
+                <Link
+                  to="/shop"
+                  className="flex items-center transition-transform transform hover:translate-x-2"
+                >
+                  <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
+                  <span className="hidden nav-item-name mt-[3rem]">
+                    shop
+                  </span>{" "}
+                </Link>
+                <Link
+                  to="/cart"
+                  className="flex items-center transition-transform transform hover:translate-x-2"
+                >
+                  <AiOutlineShoppingCart className="mr-2 mt-[3rem]" size={26} />
+                  <span className="hidden nav-item-name mt-[3rem]">
+                    Cart
+                  </span>{" "}
+                  <div className="absolute top-9">
+                    {cartItems.length > 0 && (
+                      <span>
+                        <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
+                          {cartItems.reduce((a, c) => a + c.qty, 0)}
+                        </span>
+                      </span>
+                    )}
+                  </div>
+                </Link>
+                <Link
+                  to="/favorite"
+                  className="flex items-center transition-transform transform hover:translate-x-2"
+                >
+                  <FaHeart className="mr-2 mt-[3rem]" size={26} />
+                  <span className="hidden nav-item-name mt-[3rem]">
+                    Favorite
+                  </span>{" "}
+                  <FavoritesCount />
+                </Link>
+                <Link
+                  to="/search"
+                  className="flex items-center transition-transform transform hover:translate-x-2"
+                >
+                  <AiOutlineSearch className="mr-2 mt-[3rem]" size={26} />
+                  <span className="hidden nav-item-name mt-[3rem]">
+                    Search
+                  </span>{" "}
+                </Link>
               </div>
-            </Link>
-            <Link
-              to="/favorite"
-              className="flex items-center transition-transform transform hover:translate-x-2"
-            >
-              <FaHeart className="mr-2 mt-[3rem]" size={26} />
-              <span className="hidden nav-item-name mt-[3rem]">
-                Favorite
-              </span>{" "}
-              <FavoritesCount />
-            </Link>
-          </div>
-        </>
-      )):""}
+            </>
+          )
+        : ""}
 
-      {userInfo?(userInfo.isOwner && (
-        <>
-          <li>
-            <Link
-              to="/owner/dashboard"
-              className="block px-4 "
-            >
-              <a href="">
-              <BsGrid1X2Fill className="icon" /> Dashboard
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/owner/products"
-              className="block px-4 "
-            >
-              <BsFillArchiveFill className="icon" /> Products
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/owner/categorylist"
-              className="block px-4 "
-            >
-              <BsFillGrid3X3GapFill className="icon" /> Categories
-            </Link>
-          </li>
-          {/* <li>
+      {userInfo
+        ? userInfo.isOwner && (
+            <>
+              <li>
+                <Link to="/owner/dashboard" className="block px-4 ">
+                  <a href="">
+                    <BsGrid1X2Fill className="icon" /> Dashboard
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/products" className="block px-4 ">
+                  <BsFillArchiveFill className="icon" /> Products
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/categorylist" className="block px-4 ">
+                  <BsFillGrid3X3GapFill className="icon" /> Categories
+                </Link>
+              </li>
+              {/* <li>
           <Link to='/admin/orderlist' className='block px-4 '>
           Orders
           </Link>
         </li> */}
-          <li>
-            <Link
-              to="/owner/branchlist"
-              className="block px-4 "
-            >
-              <BsFillGrid3X3GapFill className="icon" /> Branch
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/owner/dashboard"
-              className="block px-4 "
-            >
-              <BsListCheck className="icon" /> Inventory
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/owner/allAdmin"
-              className="block px-4 "
-            >
-              <BsPeopleFill className="icon" /> Customers
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/owner/dashboard"
-              className="block px-4 "
-            >
-              <BsMenuButtonWideFill className="icon" /> Reports
-            </Link>
-          </li>
-        </>
-      )):""}
+              <li>
+                <Link to="/owner/branchlist" className="block px-4 ">
+                  <BsFillGrid3X3GapFill className="icon" /> Branch
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/dashboard" className="block px-4 ">
+                  <BsListCheck className="icon" /> Inventory
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/allAdmin" className="block px-4 ">
+                  <BsPeopleFill className="icon" /> Customers
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/dashboard" className="block px-4 ">
+                  <BsMenuButtonWideFill className="icon" /> Reports
+                </Link>
+              </li>
+            </>
+          )
+        : ""}
 
       {!userInfo && (
         <ul>
@@ -274,14 +273,7 @@ const Navigation = () => {
                     Orders
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/admin/branchlist"
-                    className="block px-4 hover:bg-gray-100"
-                  >
-                    Branch
-                  </Link>
-                </li>
+
                 <li>
                   <Link
                     to="/admin/userlist"

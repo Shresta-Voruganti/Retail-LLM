@@ -136,7 +136,7 @@ const fetchProductById = asyncHandler(async (req, res) => {
 const fetchAllProducts = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const products = await Product.find({branch:user.branch})
+    const products = await Product.find({ branch: user.branch })
       .populate("category")
       .limit(12)
       .sort({ createAt: -1 });
@@ -229,7 +229,7 @@ const filterProducts = asyncHandler(async (req, res) => {
     if (checked.length > 0) args.category = checked;
     if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
 
-    const products = await Product.find(args).find({branch: user.branch});
+    const products = await Product.find(args).find({ branch: user.branch });
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -239,7 +239,7 @@ const filterProducts = asyncHandler(async (req, res) => {
 
 const ownerProducts = asyncHandler(async (req, res) => {
   try {
-    const products = await Product.find({})
+    const products = await Product.find({});
     console.log(products);
     res.json(products);
   } catch (error) {
@@ -247,7 +247,29 @@ const ownerProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
+const searchProducts = asyncHandler(async (req, res) => {
+  try {
+    let query = req.query.query;
+    console.log("Received query:", query);
 
+    if (!query) {
+      return res.status(400).json({ error: "Query parameter is required" });
+    }
+
+    query = decodeURIComponent(query);
+    console.log("Sanitized query:", query);
+
+    const products = await Product.find({
+      name: { $regex: new RegExp(query.split(" ").join(".*")), $options: "i" },
+    });
+    console.log("Search results count:", products.length);
+
+    res.json(products);
+  } catch (error) {
+    console.error("Error during product search:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 export {
   addProduct,
@@ -261,4 +283,5 @@ export {
   fetchNewProducts,
   filterProducts,
   ownerProducts,
+  searchProducts,
 };
