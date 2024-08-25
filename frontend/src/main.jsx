@@ -43,7 +43,7 @@ import Dashboard from "./pages/Owner/Dashboard.jsx";
 import OwnerRegister from "./pages/Auth/OwnerRegister.jsx";
 import AllOwnerProducts from "./pages/Owner/AllOwnerProducts.jsx";
 import AdminList from "./pages/Owner/AdminList.jsx";
-
+import Request from "./pages/Admin/Request.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -74,6 +74,7 @@ const router = createBrowserRouter(
         <Route path="orderlist" element={<OrderList />} />
         <Route path="product/update/:_id" element={<ProductUpdate />} />
         <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="request" element={<Request />} />
       </Route>
 
       {/* Owner Routes */}

@@ -14,6 +14,7 @@ import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import branchRoutes from "./routes/branchRoutes.js";
+import requestRoutes from "./routes/requestRoutes.js"
 import cors from "cors";
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -34,7 +35,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/branch", branchRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/orders", orderRoutes);
-
+app.use("api/request",requestRoutes);
 app.get("/api/config/paypal", (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
 });
