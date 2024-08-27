@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-const Request = mongoose.model("Request", {
-  from: { type: mongoose.Schema.Types.ObjectId, ref: "Salesperson" },
-  to: { type: mongoose.Schema.Types.ObjectId, ref: "Salesperson" },
+const requestSchema= new mongoose.Schema( {
+
+  from: { type: String },
+  to: { type: String },
   product: String,
   status: {
     type: String,
@@ -11,4 +12,4 @@ const Request = mongoose.model("Request", {
   message: String,
 });
 
-export default Request;
+export default mongoose.model("Request",requestSchema);

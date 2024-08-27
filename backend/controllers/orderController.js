@@ -2,6 +2,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
+import Branch from "../models/branchModel.js";
 
 // Utility Function
 function calcPrices(orderItems) {
@@ -205,6 +206,46 @@ const markOrderAsDelivered = async (req, res) => {
   }
 };
 
+const orderGraph=async (req, res) => {
+  try {
+    console.log("hiii")
+    const branches = await Branch.find({});
+    const orders = await Order.find({});
+    const branchData = {};
+
+    branches.forEach(branch => {
+      branchData[branch.name] = {
+        productCounts: {},
+        totalProductsSold: 0
+      };
+    });
+
+    orders.forEach(order => {
+      const branchName = order.branch;
+    
+      order.orderItems.forEach(item => {
+        if (!branchData[branchName].productCounts[item.name]) {
+          branchData[branchName].productCounts[item.name] = 0;
+        }
+        branchData[branchName].productCounts[item.name] += item.qty;
+        branchData[branchName].totalProductsSold += item.qty;
+      });
+    });
+
+    // Sort products by quantity and get top 10
+    for (let branch in branchData) {
+      let sortedProducts = Object.entries(branchData[branch].productCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+      branchData[branch].topProducts = Object.fromEntries(sortedProducts);
+    }
+
+    res.json(branchData);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching data', error: error.message });
+  }
+};
+
 export {
   createOrder,
   getAllOrders,
@@ -215,4 +256,5 @@ export {
   findOrderById,
   markOrderAsPaid,
   markOrderAsDelivered,
+  orderGraph,
 };

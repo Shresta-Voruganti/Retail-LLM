@@ -44,6 +44,9 @@ import OwnerRegister from "./pages/Auth/OwnerRegister.jsx";
 import AllOwnerProducts from "./pages/Owner/AllOwnerProducts.jsx";
 import AdminList from "./pages/Owner/AdminList.jsx";
 import Request from "./pages/Admin/Request.jsx";
+import BranchProductDetails from "./pages/Owner/Reports.jsx";
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -84,6 +87,7 @@ const router = createBrowserRouter(
         <Route path="branchlist" element={<BranchList />} />
         <Route path="categorylist" element={<CategoryList />} />
         <Route path="allAdmin" element={<AdminList />} />
+        <Route path="reports" element={<BranchProductDetails/>} />
       </Route>
     </Route>
   )

@@ -35,7 +35,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/branch", branchRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("api/request",requestRoutes);
+app.use("/api/request",requestRoutes);
 app.get("/api/config/paypal", (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
 });

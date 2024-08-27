@@ -11,6 +11,7 @@ import {
   findOrderById,
   markOrderAsPaid,
   markOrderAsDelivered,
+  orderGraph,
 } from "../controllers/orderController.js";
 
 import { authenticate, authorizeAdmin, authorizeOwner } from "../middlewares/authMiddleware.js";
@@ -23,6 +24,7 @@ router
 router.route("/mine").get(authenticate, getUserOrders);
 router.route("/total-orders").get(countTotalOrders);
 router.route("/total-sales").get(calculateTotalSales);
+router.route("/orderGraph").get(orderGraph) ;
 router.route("/total-sales-by-date").get(calcualteTotalSalesByDate);
 router.route("/:id").get(authenticate, findOrderById);
 router.route("/:id/pay").put(authenticate, markOrderAsPaid);

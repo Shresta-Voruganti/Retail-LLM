@@ -169,7 +169,7 @@ const Navigation = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/owner/dashboard" className="block px-4 ">
+                <Link to="/owner/reports" className="block px-4 ">
                   <BsMenuButtonWideFill className="icon" /> Reports
                 </Link>
               </li>
