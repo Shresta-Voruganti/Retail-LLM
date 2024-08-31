@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import Header from "../components/Header";
 import Message from "../components/Message";
 import Product from "./Products/Product";
+import ChatComponent from "../components/ChatComponent"; // Import the ChatComponent
 
 const Home = () => {
   const { keyword } = useParams();
@@ -38,6 +39,11 @@ const Home = () => {
                 <Product product={product} />
               </div>
             ))}
+          </div>
+
+          {/* Chat component */}
+          <div className="fixed bottom-4 right-4">
+            <ChatComponent />
           </div>
         </>
       )}
